@@ -289,7 +289,20 @@ class ApiDocExtractor
         $annotation = clone $annotation;
 
         // doc
-        $annotation->setDocumentation($this->commentExtractor->getDocCommentText($method));
+        $docMethod = $annotation->getDocMethod();
+        if($docMethod){
+            $controller         = $route->getDefault('_controller');
+            $reflectionClass    = new \ReflectionClass(substr($controller, 0, strpos($controller, "::")));
+
+            if(!$reflectionClass->hasMethod($docMethod)){
+                throw new \InvalidArgumentException("${controller} does not contain method ${docMethod}!");
+            }
+
+            $inheritedMethod = $reflectionClass->getMethod($docMethod);
+            $annotation->setDocumentation($this->commentExtractor->getDocCommentText($inheritedMethod));
+        }else{
+            $annotation->setDocumentation($this->commentExtractor->getDocCommentText($method));
+        }
 
         // parse annotations
         $this->parseAnnotations($annotation, $route, $method);

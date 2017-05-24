@@ -111,6 +111,43 @@ class ApiDoc
     private $uri;
 
     /**
+     * Method containing documentation.
+     *
+     * Method name which will be used to pull documentation from PHPDoc.
+     * This option makes sense in this weird case usage:
+     *  Class containing route definitions and documentation is abstract and routes call abstract methods to collect
+     *  data which must be implemented. Here we define name of those methods which will contain description in docs
+     *  of implemented methods.
+     * -----------------------------------------------------------------------------------------------------------------
+     * short example
+     * <pre>
+     *
+     *      abstract class A extends FosRestController {
+     *
+     *          #docs are here ... routes and apidoc
+     *          public function someAction(){
+     *              return this->getData();
+     *          }
+     *
+     *          protected abstract function getData();
+     *
+     *      }
+     *
+     *      class B extends A {
+     *
+     *          //DOCS that will override ApiDoc
+     *          protected function getData(){
+     *              //something
+     *          }
+     *      }
+     *
+     * </pre>
+     *
+     * @var string
+     */
+    private $docMethod;
+
+    /**
      * @var array
      */
     private $response = array();
@@ -176,6 +213,10 @@ class ApiDoc
 
         if (isset($data['description'])) {
             $this->description = $data['description'];
+        }
+
+        if(isset($data['docMethod'])){
+            $this->docMethod = $data['docMethod'];
         }
 
         if (isset($data['input'])) {
@@ -768,6 +809,22 @@ class ApiDoc
         }
 
         return $this->responseMap;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocMethod()
+    {
+        return $this->docMethod;
+    }
+
+    /**
+     * @param string $docMethod
+     */
+    public function setDocMethod($docMethod)
+    {
+        $this->docMethod = $docMethod;
     }
 
     /**
