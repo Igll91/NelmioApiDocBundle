@@ -165,8 +165,8 @@ table tbody tr td.format {
 }
 
 #sandbox_configuration {
-    float: right;
-    padding: 10px 0 10px 0;
+  float: right;
+  padding: 10px 0 10px 0;
 }
 
 #colophon {
@@ -186,37 +186,37 @@ table tbody tr td.format {
 }
 
 .section {
-    padding: 5px 20px;
-    border-bottom: 1px solid #ddd;
+  padding: 5px 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 .section h1 {
-    padding: 0;
+  padding: 0;
 }
 
 .section.active {
-    border: 1px solid #ddd;
-    background: #f8f8f8;
-    margin: 15px 0;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+  margin: 15px 0;
 }
 
 .section.active h1 {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 .section .actions {
-    text-align: right;
-    float: right;
-    margin-top: 10px;
+  text-align: right;
+  float: right;
+  margin-top: 10px;
 }
 
 .section .actions a {
-    cursor: pointer;
-    margin-left: 10px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .section .actions a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 li.resource {
@@ -302,18 +302,18 @@ li.operation .heading h3 span {
   padding: 0;
 }
 li.operation .heading h3 span.icon {
-    display: inline-block;
-    height: 12px;
-    width: 12px;
-    margin-left: 3px;
-    background: no-repeat center center;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin-left: 3px;
+  background: no-repeat center center;
 }
 li.operation .heading h3 span.lock {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUHEisepJ6ljAAAAJ5JREFUGNNt0LEOAUEUheEPuwkFtSg0old4Eo/imbQKiULpBZQSCtFoaIjSktXMxpjsSW5xzvnnZmb4aYMymg9WEq1Decc1zCNkyxisoFGUTXDGEZpR8cIp8jccKiaLigwDdMP9hughr8ptALtYoB18C+Pgd5KXlrhgX5P/mSfmmKVgM/mmDP1qQ1rEyjFFkYKNmtMF3uikYFGzOdXnC5FWMZNd2GfvAAAAAElFTkSuQmCC");
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUHEisepJ6ljAAAAJ5JREFUGNNt0LEOAUEUheEPuwkFtSg0old4Eo/imbQKiULpBZQSCtFoaIjSktXMxpjsSW5xzvnnZmb4aYMymg9WEq1Decc1zCNkyxisoFGUTXDGEZpR8cIp8jccKiaLigwDdMP9hughr8ptALtYoB18C+Pgd5KXlrhgX5P/mSfmmKVgM/mmDP1qQ1rEyjFFkYKNmtMF3uikYFGzOdXnC5FWMZNd2GfvAAAAAElFTkSuQmCC");
 
 }
 li.operation .heading h3 span.keys {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUHEisb1PRRAwAAAN9JREFUKM9lz71KQ0EQhuEnJ7EIKhZWaRULu4htLLwDvYRgZWmTWoI3kAuIlVik0U5Io4USRMFOUGwU7cQ/kAQMajMHDpuBZWd235lvPtjHDT4xxhuu0ZJEhhXU8YAG7rCKBWyn8EnkVSxjOuoPbKTT1/GXnCd0YqWt4uQrk3GLGcxiswgPcRgG4QsDzKMSKtUc/kUbFwEf4BlrUdeCk8WOj3jBO+5xhGOMwmQzh6Ec9zemwtgOLuN9D4tZYqwUSvnuu3jFHLpZASqHUqXQfIZe5PX8Y4RTLKGfqLVwjp9/HR4zOkGnnAoAAAAASUVORK5CYII=");
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUHEisb1PRRAwAAAN9JREFUKM9lz71KQ0EQhuEnJ7EIKhZWaRULu4htLLwDvYRgZWmTWoI3kAuIlVik0U5Io4USRMFOUGwU7cQ/kAQMajMHDpuBZWd235lvPtjHDT4xxhuu0ZJEhhXU8YAG7rCKBWyn8EnkVSxjOuoPbKTT1/GXnCd0YqWt4uQrk3GLGcxiswgPcRgG4QsDzKMSKtUc/kUbFwEf4BlrUdeCk8WOj3jBO+5xhGOMwmQzh6Ec9zemwtgOLuN9D4tZYqwUSvnuu3jFHLpZASqHUqXQfIZe5PX8Y4RTLKGfqLVwjp9/HR4zOkGnnAoAAAAASUVORK5CYII=");
 }
 li.operation .heading h3 span.http_method i, li.operation .heading h3 span.deprecated i {
   text-transform: uppercase;
@@ -362,7 +362,7 @@ li.operation div.content {
   background-color: #f0f0f0;
 }
 li.operation > div.content {
-    border-top:0px;
+  border-top:0px;
 }
 li.operation div.content h4 {
   font-size: 1.1em;
@@ -599,7 +599,7 @@ form .parameters {
 }
 
 form .parameters .tuple input, form .parameters .tuple textarea {
-	width: 40%;
+  width: 40%;
 }
 
 form .headers,
@@ -614,17 +614,17 @@ form .request-content {
 }
 
 .request-content textarea {
-    width:100%;
-    min-width:100%;
-    max-width:100%;
-    height:5em;
-    margin-bottom:10px;
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+  height:5em;
+  margin-bottom:10px;
 }
 
 .pane.content div ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    margin-bottom: 10px;
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 10px;
 }
 
 .motd {
@@ -632,6 +632,14 @@ form .request-content {
 }
 
 .json-collapse-section {
-    color: #660;
-    cursor: pointer;
+  color: #660;
+  cursor: pointer;
+}
+
+.horizontal-line {
+  color: rgba(0,0,0,0.2);
+}
+
+.section-description{
+  padding: 10px 0px 20px 0px;
 }

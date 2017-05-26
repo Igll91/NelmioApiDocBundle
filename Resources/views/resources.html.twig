@@ -11,13 +11,20 @@
     {% for section, sections in resources  %}
         {% if section != '_others' %}
             <li class="section{{ defaultSectionsOpened? ' active':'' }}">
-                <div class="actions">
-                    <a class="action-show-hide">Show/hide</a>
-                    <a class="action-list">List Operations</a>
-                    <a class="action-expand">Expand Operations</a>
+            <div class="actions">
+                <a class="action-show-hide">Show/hide</a>
+                <a class="action-list">List Operations</a>
+                <a class="action-expand">Expand Operations</a>
+            </div>
+            <h1>{{ section }}</h1>
+
+            {% if sections.others[0].sectionDescription is defined%}
+                <div class="section-description">
+                    {{ sections.others[0].sectionDescription }}
                 </div>
-                <h1>{{ section }}</h1>
-                <ul class="section-list" {% if not defaultSectionsOpened %}style="display: none"{% endif %}>
+            {% endif %}
+
+            <ul class="section-list" {% if not defaultSectionsOpened %}style="display: none"{% endif %}>
         {% endif %}
         {% for resource, methods in sections %}
             <a id="section-{{ section }}"></a>
@@ -41,7 +48,7 @@
             </li>
         {% endfor %}
         {% if section != '_others' %}
-                </ul>
+            </ul>
             </li>
         {% endif %}
     {% endfor %}

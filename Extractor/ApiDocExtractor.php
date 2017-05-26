@@ -68,8 +68,15 @@ class ApiDocExtractor
      */
     protected $annotationsProviders;
 
-    public function __construct(ContainerInterface $container, RouterInterface $router, Reader $reader, DocCommentExtractor $commentExtractor, ControllerNameParser $controllerNameParser, array $handlers, array $annotationsProviders)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        RouterInterface $router,
+        Reader $reader,
+        DocCommentExtractor $commentExtractor,
+        ControllerNameParser $controllerNameParser,
+        array $handlers,
+        array $annotationsProviders
+    ) {
         $this->container            = $container;
         $this->router               = $router;
         $this->reader               = $reader;
@@ -112,20 +119,22 @@ class ApiDocExtractor
      */
     public function extractAnnotations(array $routes, $view = ApiDoc::DEFAULT_VIEW)
     {
-        $array     = array();
-        $resources = array();
+        $array           = array();
+        $resources       = array();
         $excludeSections = $this->container->getParameter('nelmio_api_doc.exclude_sections');
 
         foreach ($routes as $route) {
             if (!$route instanceof Route) {
-                throw new \InvalidArgumentException(sprintf('All elements of $routes must be instances of Route. "%s" given', gettype($route)));
+                throw new \InvalidArgumentException(sprintf('All elements of $routes must be instances of Route. "%s" given',
+                    gettype($route)));
             }
 
             if ($method = $this->getReflectionMethod($route->getDefault('_controller'))) {
                 $annotation = $this->reader->getMethodAnnotation($method, static::ANNOTATION_CLASS);
                 if (
                     $annotation && !in_array($annotation->getSection(), $excludeSections) &&
-                    (in_array($view, $annotation->getViews()) || (0 === count($annotation->getViews()) && $view === ApiDoc::DEFAULT_VIEW))
+                    (in_array($view,
+                            $annotation->getViews()) || (0 === count($annotation->getViews()) && $view === ApiDoc::DEFAULT_VIEW))
                 ) {
                     if ($annotation->isResource()) {
                         if ($resource = $annotation->getResource()) {
@@ -143,8 +152,11 @@ class ApiDocExtractor
 
         foreach ($this->annotationsProviders as $annotationProvider) {
             foreach ($annotationProvider->getAnnotations() as $annotation) {
-                $route = $annotation->getRoute();
-                $array[] = array('annotation' => $this->extractData($annotation, $route, $this->getReflectionMethod($route->getDefault('_controller'))));
+                $route   = $annotation->getRoute();
+                $array[] = array(
+                    'annotation' => $this->extractData($annotation, $route,
+                        $this->getReflectionMethod($route->getDefault('_controller'))),
+                );
             }
         }
 
@@ -209,12 +221,12 @@ class ApiDocExtractor
         }
 
         if (preg_match('#(.+)::([\w]+)#', $controller, $matches)) {
-            $class = $matches[1];
+            $class  = $matches[1];
             $method = $matches[2];
         } else {
             if (preg_match('#(.+):([\w]+)#', $controller, $matches)) {
                 $controller = $matches[1];
-                $method = $matches[2];
+                $method     = $matches[2];
             }
 
             if ($this->container->has($controller)) {
@@ -281,6 +293,7 @@ class ApiDocExtractor
      * @param  ApiDoc            $annotation
      * @param  Route             $route
      * @param  \ReflectionMethod $method
+     *
      * @return ApiDoc
      */
     protected function extractData(ApiDoc $annotation, Route $route, \ReflectionMethod $method)
@@ -289,19 +302,23 @@ class ApiDocExtractor
         $annotation = clone $annotation;
 
         // doc
-        $docMethod = $annotation->getDocMethod();
-        if($docMethod){
-            $controller         = $route->getDefault('_controller');
-            $reflectionClass    = new \ReflectionClass(substr($controller, 0, strpos($controller, "::")));
+        $docMethod       = $annotation->getDocMethod();
+        $controller      = $route->getDefault('_controller');
+        $reflectionClass = new \ReflectionClass(substr($controller, 0, strpos($controller, "::")));
 
-            if(!$reflectionClass->hasMethod($docMethod)){
+        if ($docMethod) {
+
+            if (!$reflectionClass->hasMethod($docMethod)) {
                 throw new \InvalidArgumentException("${controller} does not contain method ${docMethod}!");
             }
 
             $inheritedMethod = $reflectionClass->getMethod($docMethod);
             $annotation->setDocumentation($this->commentExtractor->getDocCommentText($inheritedMethod));
-        }else{
+            $annotation->setSection($reflectionClass->getShortName());
+            $annotation->setSectionDescription($this->commentExtractor->getDocCommentText($reflectionClass));
+        } else {
             $annotation->setDocumentation($this->commentExtractor->getDocCommentText($method));
+            $annotation->setSectionDescription($this->commentExtractor->getDocCommentText($reflectionClass));
         }
 
         // parse annotations
@@ -357,13 +374,13 @@ class ApiDocExtractor
             foreach ($this->getParsers($normalizedOutput) as $parser) {
                 if ($parser->supports($normalizedOutput)) {
                     $supportedParsers[] = $parser;
-                    $response = $this->mergeParameters($response, $parser->parse($normalizedOutput));
+                    $response           = $this->mergeParameters($response, $parser->parse($normalizedOutput));
                 }
             }
 
             foreach ($supportedParsers as $parser) {
                 if ($parser instanceof PostParserInterface) {
-                    $mp = $parser->postParse($normalizedOutput, $response);
+                    $mp       = $parser->postParse($normalizedOutput, $response);
                     $response = $this->mergeParameters($response, $mp);
                 }
             }
@@ -379,7 +396,7 @@ class ApiDocExtractor
 
             foreach ($annotation->getResponseMap() as $code => $modelName) {
 
-                if ('200' === (string) $code && isset($modelName['type']) && isset($modelName['model'])) {
+                if ('200' === (string)$code && isset($modelName['type']) && isset($modelName['model'])) {
                     /*
                      * Model was already parsed as the default `output` for this ApiDoc.
                      */
@@ -388,18 +405,18 @@ class ApiDocExtractor
 
                 $normalizedModel = $this->normalizeClassParameter($modelName);
 
-                $parameters = array();
+                $parameters       = array();
                 $supportedParsers = array();
                 foreach ($this->getParsers($normalizedModel) as $parser) {
                     if ($parser->supports($normalizedModel)) {
                         $supportedParsers[] = $parser;
-                        $parameters = $this->mergeParameters($parameters, $parser->parse($normalizedModel));
+                        $parameters         = $this->mergeParameters($parameters, $parser->parse($normalizedModel));
                     }
                 }
 
                 foreach ($supportedParsers as $parser) {
                     if ($parser instanceof PostParserInterface) {
-                        $mp = $parser->postParse($normalizedModel, $parameters);
+                        $mp         = $parser->postParse($normalizedModel, $parameters);
                         $parameters = $this->mergeParameters($parameters, $mp);
                     }
                 }
@@ -421,7 +438,7 @@ class ApiDocExtractor
         $defaults = array(
             'class'   => '',
             'groups'  => array(),
-            'options'  => array(),
+            'options' => array(),
         );
 
         // normalize strings
@@ -434,11 +451,13 @@ class ApiDocExtractor
         /*
          * Match array<Fully\Qualified\ClassName> as alias; "as alias" optional.
          */
-        if (preg_match_all("/^array<([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*)>(?:\\s+as\\s+(.+))?$/", $input['class'], $collectionData)) {
-            $input['class'] = $collectionData[1][0];
-            $input['collection'] = true;
+        if (preg_match_all("/^array<([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*)>(?:\\s+as\\s+(.+))?$/",
+            $input['class'], $collectionData)) {
+            $input['class']          = $collectionData[1][0];
+            $input['collection']     = true;
             $input['collectionName'] = $collectionData[2][0];
-        } elseif (preg_match('/^array</', $input['class'])) { //See if a collection directive was attempted. Must be malformed.
+        } elseif (preg_match('/^array</',
+            $input['class'])) { //See if a collection directive was attempted. Must be malformed.
             throw new \InvalidArgumentException(
                 sprintf(
                     'Malformed collection directive: %s. Proper format is: array<Fully\\Qualified\\ClassName> or array<Fully\\Qualified\\ClassName> as collectionName',
@@ -469,6 +488,7 @@ class ApiDocExtractor
      *
      * @param  array $p1 The pre-existing parameters array.
      * @param  array $p2 The newly-returned parameters array.
+     *
      * @return array The resulting, merged array.
      */
     protected function mergeParameters($p1, $p2)
@@ -499,7 +519,7 @@ class ApiDocExtractor
                             $v1[$name] = $v1[$name] || $value;
                         } elseif (in_array($name, array('requirement'))) {
                             if (isset($v1[$name])) {
-                                $v1[$name] .= ', ' . $value;
+                                $v1[$name] .= ', '.$value;
                             } else {
                                 $v1[$name] = $value;
                             }
@@ -542,6 +562,7 @@ class ApiDocExtractor
      * Clears the temporary 'class' parameter from the parameters array before it is returned.
      *
      * @param  array $array The source array.
+     *
      * @return array The cleared array.
      */
     protected function clearClasses($array)
@@ -560,6 +581,7 @@ class ApiDocExtractor
      * Populates the `dataType` properties in the parameter array if empty. Recurses through children when necessary.
      *
      * @param  array $array
+     *
      * @return array
      */
     protected function generateHumanReadableTypes(array $array)
@@ -583,6 +605,7 @@ class ApiDocExtractor
      *
      * @param  string $actualType
      * @param  string $subType
+     *
      * @return string
      */
     protected function generateHumanReadableType($actualType, $subType)

@@ -77,6 +77,13 @@ class ApiDoc
     private $description = null;
 
     /**
+     * Section description.
+     *
+     * @var string
+     */
+    private $sectionDescription = null;
+
+    /**
      * Section to group actions together.
      *
      * @var string
@@ -213,6 +220,10 @@ class ApiDoc
 
         if (isset($data['description'])) {
             $this->description = $data['description'];
+        }
+
+        if (isset($data['sectionDescription'])) {
+            $this->sectionDescription = $data['sectionDescription'];
         }
 
         if(isset($data['docMethod'])){
@@ -428,6 +439,22 @@ class ApiDoc
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSectionDescription()
+    {
+        return $this->sectionDescription;
+    }
+
+    /**
+     * @param string $sectionDescription
+     */
+    public function setSectionDescription($sectionDescription)
+    {
+        $this->sectionDescription = $sectionDescription;
     }
 
     /**
@@ -725,6 +752,10 @@ class ApiDoc
 
         if ($description = $this->description) {
             $data['description'] = $description;
+        }
+
+        if ($sectionDescription = $this->sectionDescription) {
+            $data['sectionDescription'] = $sectionDescription;
         }
 
         if ($link = $this->link) {
